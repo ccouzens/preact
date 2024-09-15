@@ -481,4 +481,30 @@ describe('hydrate()', () => {
 		expect(scratch.innerHTML).to.equal('<p>hello foo</p>');
 		expect(getLog()).to.deep.equal(['Comment.remove()', 'Comment.remove()']);
 	});
+
+	it('should skip empty strings before elements', () => {
+		scratch.innerHTML = '<p><span></span></p>';
+		hydrate(
+			<p>
+				{''}
+				<span></span>
+			</p>,
+			scratch
+		);
+		expect(scratch.innerHTML).to.equal('<p><span></span></p>');
+		expect(getLog()).to.deep.equal([]);
+	});
+
+	it('should skip empty strings after elements', () => {
+		scratch.innerHTML = '<p><span></span></p>';
+		hydrate(
+			<p>
+				<span></span>
+				{''}
+			</p>,
+			scratch
+		);
+		expect(scratch.innerHTML).to.equal('<p><span></span></p>');
+		expect(getLog()).to.deep.equal([]);
+	});
 });
