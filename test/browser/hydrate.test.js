@@ -481,4 +481,30 @@ describe('hydrate()', () => {
 		expect(scratch.innerHTML).to.equal('<p>hello foo</p>');
 		expect(getLog()).to.deep.equal(['Comment.remove()', 'Comment.remove()']);
 	});
+
+	it('should update style attribute from object on hydrate', () => {
+		scratch.innerHTML = '<div><span style="font-weight: bold;"></span></div>';
+		hydrate(
+			<div>
+				<span style={{ fontWeight: 'lighter' }}></span>
+			</div>,
+			scratch
+		);
+		expect(scratch.innerHTML).to.equal(
+			'<div><span style="font-weight: lighter;"></span></div>'
+		);
+	});
+
+	it('should update style attribute from string on hydrate', () => {
+		scratch.innerHTML = '<div><span style="font-weight: bold;"></span></div>';
+		hydrate(
+			<div>
+				<span style={'font-weight: lighter;'}></span>
+			</div>,
+			scratch
+		);
+		expect(scratch.innerHTML).to.equal(
+			'<div><span style="font-weight: lighter;"></span></div>'
+		);
+	});
 });
